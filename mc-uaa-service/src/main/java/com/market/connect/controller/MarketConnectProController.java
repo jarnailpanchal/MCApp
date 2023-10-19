@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.market.connect.user.entity.User;
-import com.market.connect.user.service.UserService;
+import com.market.connect.service.UserService;
 
 @RestController
 @RequestMapping(value = "/market-connect")
@@ -16,8 +15,8 @@ public class MarketConnectProController {
 	private UserService userService;
 	
 	@GetMapping(value = "/hello")
-	public User sayHello() {
+	public String sayHello() {
 		
-		return userService.findUser();
+		return "Hello! Jarnail";
 	}
 }
