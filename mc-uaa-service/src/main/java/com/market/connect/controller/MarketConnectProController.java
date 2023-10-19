@@ -17,6 +17,6 @@ public class MarketConnectProController {
 	@GetMapping(value = "/hello")
 	public String sayHello() {
 		
-		return "Hello!";
+		return "Hello! Jarnail";
 	}
 }
