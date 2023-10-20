@@ -21,43 +21,36 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
-public class User {
-	
+@Table(name = "category_manager")
+public class CompanyManager {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String userId;
-	@Column(name = "first_name")
-	private String firstName;
-	@Column(name = "middle_name")
-	private String middleName;
-	@Column(name = "last_name")
-	private String lastName;
-	@Column(name = "age")
-	private Integer age;
-	@Column(name = "email_address")
-	private String emailAddress;
-	@Column(name = "phone_number")
-	private String phoneNumber;
-	@Column(name = "address")
-	private String address;
+	@Column(name = "company_id")
+	private String companyId;
+	@Column(name = "company_type")
+	private String companyType;
+	@Column(name = "company_address")
+	private String companyAddress;
 	@Column(name = "city")
 	private String city;
 	@Column(name = "state")
 	private String state;
-	@Column(name = "country")
+	@Column(name = "user_id")
+	private String userId;
+	@Column(name = "company_start_date")
+	private Date companyStartDate;
+	@Column(name = "counry")
 	private String country;
-	@Column(name = "pincode")
-	private String pincode;
-	@Column(name = "role_id")
-	private String roleId;
-	@Column(name = "image_url")
-	private String imageUrl;
-	@Column(name = "company_name")
-	private String companyName;
-	@Column(name = "password")
-	private String password;
-	@Column(name = "Status")
+	@Column(name = "longtitude")
+	private String longtitude;
+	@Column(name = "latitude")
+	private String latitude;
+	@Column(name = "category_id")
+	private String categoryId;
+	@Column(name = "description")
+	private String description;
+	@Column(name = "status")
 	private Short status;
 	@Column(name = "created_date")
 	private Date createdDate;
@@ -67,9 +60,4 @@ public class User {
 	private Date updateDate;
 	@Column(name = "updated_by")
 	private String updatedBy;
-	@Column(name = "category_id")
-	private String categoryId;
-	@Column(name = "company_id")
-	private String companyId;
-
 }
