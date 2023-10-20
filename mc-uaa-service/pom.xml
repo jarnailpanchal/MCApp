@@ -32,11 +32,6 @@
 		    <artifactId>lombok</artifactId>
 		    <scope>provided</scope>
 		</dependency>
-		<dependency>
-        	<groupId>com.market.connect</groupId>
-			<artifactId>mc-user-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-	    </dependency>
 	</dependencies>
 
 	<build>
