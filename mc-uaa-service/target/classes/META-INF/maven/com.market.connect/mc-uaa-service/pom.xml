@@ -66,6 +66,10 @@
 	        <artifactId>twilio</artifactId>
 	        <version>8.36.0</version> <!-- Use the latest version available -->
 	    </dependency>
+	    <dependency>
+		    <groupId>org.hibernate.validator</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
