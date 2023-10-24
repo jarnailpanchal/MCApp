@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,12 +24,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @Table(name = "rating_manager")
+@Where(clause = "status = 1")
 public class Role {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "role_id")
-	private String roleId;
+	private Long roleId;
 	@Column(name = "role_name")
 	private String roleName;
 	@Column(name = "status")

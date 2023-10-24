@@ -1,6 +1,6 @@
 package com.market.connect.entity;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Where;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,21 +24,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "category_manager")
-public class ManagerPassword {
+@Table(name = "manage_password")
+@Where(clause = "status = 1")
+public class ManagePassword {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "manage_password_id")
-	private String managerPasswordId;
-	@Column(name = "password")
-	private String password;
-	@Column(name = "try_count")
-	private Integer tryCount;
+	private Long managerPasswordId;
 	@Column(name = "status")
 	private String status;
 	@Column(name = "created_date")
-	private Date createdDate;
+	private Instant createdDate;
 	@Column(name = "created_by")
 	private String createdBy;
 	@Column(name = "update_date")
@@ -45,10 +44,10 @@ public class ManagerPassword {
 	private String updateBy;
 	@Column(name = "otp_value")
 	private String otpValue;
-	@Column(name = "otp_time")
-	private Timestamp otpTime;
 	@Column(name = "otp_source")
-	private String topSource;
+	private String otpSource;
+	@Column(name = "mobile_number")
+	private String mobileNumber;
 	@Column(name = "user_id")
-	private String userId;
+	private Long userId;
 }

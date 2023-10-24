@@ -1,0 +1,128 @@
+package com.market.connect.service;
+
+import java.nio.ByteBuffer;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.time.Instant;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.market.connect.constant.MarketConnectConstant;
+import com.market.connect.entity.ManagePassword;
+import com.market.connect.repository.ManagePasswordRepository;
+import com.twilio.rest.api.v2010.account.Message;
+
+import ch.qos.logback.core.boolex.EvaluationException;
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
+@Service
+public class OtpServiceImpl implements OtpService {
+
+	@Autowired
+	ManagePasswordRepository managePasswordRepository;
+
+	@Override
+	public String generateOtpSecurityKey() {
+		log.info("inside generate otp security key 👽 ");
+		// Generate a random byte array for the secret key
+		byte[] buffer = new byte[10]; // You can adjust the length as needed
+		new SecureRandom().nextBytes(buffer);
+
+		log.info("security key generated successfully 👽 ");
+		// Encode the byte array as a Base32 string
+		return new Base64().encodeToString(buffer);
+	}
+
+	@Override
+	public Boolean generateAndSendOtp(String secreteKey, String mobileNumber, String userType) {
+		Boolean isOtpSent = false;
+		try {
+			log.info("generate and send otp funcation start here 👽 " + mobileNumber);
+			String otp = generateOTP(secreteKey);
+			log.info("generate and send otp funcation start here 👽 with otp :" + otp);
+			isOtpSent = true;
+			ManagePassword managerPasswordEntity = managePasswordRepository.findByMobileNumber(mobileNumber);
+			if (managerPasswordEntity == null) {
+				ManagePassword managerPassword = new ManagePassword();
+				managerPassword.setCreatedBy(mobileNumber);
+				managerPassword.setCreatedDate(Instant.now());
+				managerPassword.setOtpValue(otp);
+				managerPassword.setStatus("1");
+				managerPassword.setOtpSource(mobileNumber);
+				managerPassword.setMobileNumber(mobileNumber);
+				managerPassword.setOtpSource(mobileNumber);
+				managePasswordRepository.save(managerPassword);
+				sendOTP(mobileNumber, otp);
+			} else if (managerPasswordEntity != null && userType.equalsIgnoreCase(MarketConnectConstant.USER_STATE_New)
+					&& managerPasswordEntity.getUserId() == null) {
+				managerPasswordEntity.setOtpValue(otp);
+				managePasswordRepository.save(managerPasswordEntity);
+				 sendOTP(mobileNumber, otp);
+			} else {
+				throw new EvaluationException("user already existing with this mobile number");
+			}
+			
+			log.info("otp generate and validate successfully 👽 " + otp + ": mobile number : " + mobileNumber);
+		} catch (Exception e) {
+			log.error("error while generating/sending otp 👽 ");
+			e.printStackTrace();
+			isOtpSent = false;
+		}
+		return isOtpSent;
+	}
+
+	@Override
+	public String generateOTP(String secretKey) {
+		try {
+			long timeStep = 30; // TOTP time step (in seconds)
+			long timestamp = Instant.now().getEpochSecond() / timeStep;
+			byte[] keyBytes = secretKey.getBytes();
+
+			// Convert the timestamp to bytes
+			ByteBuffer buffer = ByteBuffer.allocate(8);
+			buffer.putLong(timestamp);
+			byte[] timeBytes = buffer.array();
+
+			// Generate the HMAC-SHA1 hash
+			SecretKeySpec key = new SecretKeySpec(keyBytes, "HmacSHA1");
+			Mac mac = Mac.getInstance("HmacSHA1");
+			mac.init(key);
+			byte[] hash = mac.doFinal(timeBytes);
+
+			// Calculate the offset for the OTP
+			int offset = hash[hash.length - 1] & 0x0F;
+			int truncatedHash = 0;
+			for (int i = offset; i < offset + 4; i++) {
+				truncatedHash <<= 8;
+				truncatedHash |= hash[i] & 0xFF;
+			}
+			truncatedHash &= 0x7FFFFFFF;
+			truncatedHash %= 1000000; // 6-digit OTP
+
+			// Format the OTP as a 6-digit string
+			return String.format("%06d", truncatedHash);
+		} catch (NoSuchAlgorithmException | InvalidKeyException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public void sendOTP(String mobileNumber, String otp) {
+		//TODO need to add send OTP functionality
+	}
+
+	@Override
+	public Boolean verifyOtp(String mobileNumber, String otp) {
+		log.info("verifyOtp execution start here with param 👽 : OTP :" + otp + ": mobile number : " + mobileNumber);
+		ManagePassword managerPasswordEntity = managePasswordRepository.findByMobileNumberAndOtpValue(mobileNumber, otp);
+		return managerPasswordEntity == null?MarketConnectConstant.False:MarketConnectConstant.True;
+	}
+}

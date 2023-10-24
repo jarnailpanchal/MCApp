@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,12 +24,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @Table(name = "category_manager")
+@Where(clause = "status = 1")
 public class CompanyManager {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "company_id")
-	private String companyId;
+	private Long companyId;
 	@Column(name = "company_type")
 	private String companyType;
 	@Column(name = "company_address")
@@ -37,7 +40,7 @@ public class CompanyManager {
 	@Column(name = "state")
 	private String state;
 	@Column(name = "user_id")
-	private String userId;
+	private Long userId;
 	@Column(name = "company_start_date")
 	private Date companyStartDate;
 	@Column(name = "counry")
@@ -47,7 +50,7 @@ public class CompanyManager {
 	@Column(name = "latitude")
 	private String latitude;
 	@Column(name = "category_id")
-	private String categoryId;
+	private Long categoryId;
 	@Column(name = "description")
 	private String description;
 	@Column(name = "status")

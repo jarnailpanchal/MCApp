@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +24,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @Table(name = "user")
+@Where(clause = "status = 1")
 public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String userId;
+	private Long userId;
 	@Column(name = "first_name")
 	private String firstName;
 	@Column(name = "middle_name")
@@ -50,7 +53,7 @@ public class User {
 	@Column(name = "pincode")
 	private String pincode;
 	@Column(name = "role_id")
-	private String roleId;
+	private Long roleId;
 	@Column(name = "image_url")
 	private String imageUrl;
 	@Column(name = "company_name")
@@ -68,8 +71,8 @@ public class User {
 	@Column(name = "updated_by")
 	private String updatedBy;
 	@Column(name = "category_id")
-	private String categoryId;
+	private Long categoryId;
 	@Column(name = "company_id")
-	private String companyId;
+	private Long companyId;
 
 }

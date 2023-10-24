@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +24,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @Table(name = "banner_manager")
+@Where(clause = "status = 1")
 public class BannerManager {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String bannerManagerId;
+	private Long bannerManagerId;
 	@Column(name = "banner_url")
 	private String bannerUrl;
 	@Column(name = "user_id")
