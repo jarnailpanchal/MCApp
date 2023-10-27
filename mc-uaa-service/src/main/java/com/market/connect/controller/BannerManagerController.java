@@ -11,26 +11,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.market.connect.dto.BannerManagerDto;
 import com.market.connect.dto.ManageCategoryDto;
-import com.market.connect.service.ManageCategoryService;
+import com.market.connect.service.BannerManagerService;
 
 @RestController
-@RequestMapping(value = "/category")
-public class ManageCategoryController {
+@RequestMapping(value = "/banner")
+public class BannerManagerController {
 
 	@Autowired
-	private ManageCategoryService manageCategoryService;
+	private BannerManagerService bannerManagerService;
 
 	// to save the category
 	@PostMapping("/save")
-	public ManageCategoryDto saveCategory(@Valid @RequestBody ManageCategoryDto manageCategoryDto) {
-		return manageCategoryService.save(manageCategoryDto);
+	public BannerManagerDto saveCategory(@Valid @RequestBody BannerManagerDto bannerManagerDto) {
+		return bannerManagerService.save(bannerManagerDto);
 	}
 
 	@GetMapping(path = "/getAll")
 	public Page<ManageCategoryDto> getAllCategory(@RequestParam("page") int page, @RequestParam("size") int size,
 			@RequestParam("sort") String sort) {
-		Page<ManageCategoryDto> categories = manageCategoryService.searchCategories(page, size, sort);
+		Page<ManageCategoryDto> categories = bannerManagerService.searchCategories(page, size, sort);
 		return categories;
 	}
+
 }
