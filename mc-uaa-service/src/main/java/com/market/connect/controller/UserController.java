@@ -1,10 +1,9 @@
 package com.market.connect.controller;
 
-import java.util.List;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.market.connect.dto.UserDto;
-import com.market.connect.mapper.PageableRequest;
 import com.market.connect.service.UserService;
 
 @RestController
@@ -23,10 +21,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@GetMapping(value = "/all")
-	public List<UserDto> getAllUsers() {
-
-		return userService.findAll();
+	@PostMapping("/save")
+	public UserDto saveCategory(@Valid @RequestBody UserDto userDto) throws Exception {
+		return userService.save(userDto);
 	}
 	
 	@GetMapping(path = "/getAllUsers")

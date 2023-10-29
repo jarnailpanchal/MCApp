@@ -1,6 +1,6 @@
 package com.market.connect.entity;
 
-import java.util.Date;
+import java.time.Instant;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -63,11 +63,11 @@ public class User {
 	@Column(name = "Status")
 	private Short status;
 	@Column(name = "created_date")
-	private Date createdDate;
+	private Instant createdDate;
 	@Column(name = "created_by")
 	private String createdBy;
 	@Column(name = "update_date")
-	private Date updateDate;
+	private Instant updateDate;
 	@Column(name = "updated_by")
 	private String updatedBy;
 	@Column(name = "category_id")

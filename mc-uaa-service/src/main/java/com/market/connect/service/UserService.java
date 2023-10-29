@@ -12,4 +12,6 @@ public interface UserService {
 
 	Page<UserDto> searchUsers( int page, int size, String sort);
 
+	UserDto save(UserDto userDto) throws Exception;
+
 }

@@ -16,17 +16,16 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ManageCategoryDto {
+public class RoleDto {
 
-	private Long categoryId;
+	private Long roleId;
 	
-	@NotEmpty(message = "category name can't be blank")
-	@NotNull(message = "category name can't be null")
-	private String categoryName;
+	@NotEmpty(message = "role can't be blank")
+	@NotNull(message = "role can't be null")
+	private String roleName;
 	private Short status;
 	private Instant createdDate;
 	private String createdBy;
 	private Instant updateDate;
 	private String updatedBy;
-	
 }

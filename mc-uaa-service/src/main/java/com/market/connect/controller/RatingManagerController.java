@@ -11,26 +11,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.market.connect.dto.ManageCategoryDto;
-import com.market.connect.service.ManageCategoryService;
+import com.market.connect.dto.RatingManagerDto;
+import com.market.connect.service.RatingManagerService;
+
+import ch.qos.logback.core.boolex.EvaluationException;
 
 @RestController
-@RequestMapping(value = "/category")
-public class ManageCategoryController {
+@RequestMapping(value = "/rating")
+public class RatingManagerController {
 
 	@Autowired
-	private ManageCategoryService manageCategoryService;
+	private RatingManagerService ratingManagerService;
 
 	// to save the category
 	@PostMapping("/save")
-	public ManageCategoryDto saveCategory(@Valid @RequestBody ManageCategoryDto manageCategoryDto) {
-		return manageCategoryService.save(manageCategoryDto);
+	public RatingManagerDto saveCategory(@Valid @RequestBody RatingManagerDto ratingManagerDto) throws EvaluationException {
+		return ratingManagerService.save(ratingManagerDto);
 	}
 
 	@GetMapping(path = "/getAll")
-	public Page<ManageCategoryDto> getAllCategory(@RequestParam("page") int page, @RequestParam("size") int size,
+	public Page<RatingManagerDto> getAllCategory(@RequestParam("page") int page, @RequestParam("size") int size,
 			@RequestParam("sort") String sort) {
-		Page<ManageCategoryDto> categories = manageCategoryService.searchCategories(page, size, sort);
-		return categories;
+		return ratingManagerService.searchRatings(page, size, sort);
 	}
+	
 }

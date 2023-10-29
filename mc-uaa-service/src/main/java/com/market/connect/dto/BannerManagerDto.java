@@ -1,6 +1,6 @@
 package com.market.connect.dto;
 
-import java.util.Date;
+import java.time.Instant;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -30,8 +30,8 @@ public class BannerManagerDto {
 	@NotEmpty(message = "varifaction status can't be blank")
 	@NotNull(message = "varifaction status can't be null")
 	private String verificationStatus;
-	private Date createdDate;
+	private Instant createdDate;
 	private String createdBy;
-	private Date updateDate;
+	private Instant updateDate;
 	private String updatedBy;
 }

@@ -1,17 +1,22 @@
 package com.market.connect.mapper;
 
 import com.market.connect.dto.BannerManagerDto;
-import com.market.connect.dto.ManageCategoryDto;
+import com.market.connect.dto.CategoryManagerDto;
+import com.market.connect.dto.CompanyManagerDto;
+import com.market.connect.dto.RatingManagerDto;
+import com.market.connect.dto.RoleDto;
 import com.market.connect.dto.UserDto;
 import com.market.connect.entity.BannerManager;
 import com.market.connect.entity.CategoryManager;
+import com.market.connect.entity.CompanyManager;
+import com.market.connect.entity.RatingManager;
+import com.market.connect.entity.Role;
 import com.market.connect.entity.User;
-import java.util.Date;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-27T21:45:57+0530",
+    date = "2023-10-29T12:57:14+0530",
     comments = "version: 1.5.3.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230814-2020, environment: Java 17.0.8.1 (Eclipse Adoptium)"
 )
 public class MCMapperImpl implements MCMapper {
@@ -60,7 +65,7 @@ public class MCMapperImpl implements MCMapper {
     }
 
     @Override
-    public CategoryManager manageCategoryDtoToCategoryManagerEntity(ManageCategoryDto dto) {
+    public CategoryManager manageCategoryDtoToCategoryManagerEntity(CategoryManagerDto dto) {
         if ( dto == null ) {
             return null;
         }
@@ -70,13 +75,9 @@ public class MCMapperImpl implements MCMapper {
         categoryManager.setCategoryId( dto.getCategoryId() );
         categoryManager.setCategoryName( dto.getCategoryName() );
         categoryManager.setCreatedBy( dto.getCreatedBy() );
-        if ( dto.getCreatedDate() != null ) {
-            categoryManager.setCreatedDate( Date.from( dto.getCreatedDate() ) );
-        }
+        categoryManager.setCreatedDate( dto.getCreatedDate() );
         categoryManager.setStatus( dto.getStatus() );
-        if ( dto.getUpdateDate() != null ) {
-            categoryManager.setUpdateDate( Date.from( dto.getUpdateDate() ) );
-        }
+        categoryManager.setUpdateDate( dto.getUpdateDate() );
         categoryManager.setUpdatedBy( dto.getUpdatedBy() );
 
         return categoryManager;
@@ -105,26 +106,22 @@ public class MCMapperImpl implements MCMapper {
     }
 
     @Override
-    public ManageCategoryDto toCategoryManagerDto(CategoryManager save) {
-        if ( save == null ) {
+    public CategoryManagerDto toCategoryManagerDto(CategoryManager categoryManager) {
+        if ( categoryManager == null ) {
             return null;
         }
 
-        ManageCategoryDto manageCategoryDto = new ManageCategoryDto();
+        CategoryManagerDto categoryManagerDto = new CategoryManagerDto();
 
-        manageCategoryDto.setCategoryId( save.getCategoryId() );
-        manageCategoryDto.setCategoryName( save.getCategoryName() );
-        manageCategoryDto.setCreatedBy( save.getCreatedBy() );
-        if ( save.getCreatedDate() != null ) {
-            manageCategoryDto.setCreatedDate( save.getCreatedDate().toInstant() );
-        }
-        manageCategoryDto.setStatus( save.getStatus() );
-        if ( save.getUpdateDate() != null ) {
-            manageCategoryDto.setUpdateDate( save.getUpdateDate().toInstant() );
-        }
-        manageCategoryDto.setUpdatedBy( save.getUpdatedBy() );
+        categoryManagerDto.setCategoryId( categoryManager.getCategoryId() );
+        categoryManagerDto.setCategoryName( categoryManager.getCategoryName() );
+        categoryManagerDto.setCreatedBy( categoryManager.getCreatedBy() );
+        categoryManagerDto.setCreatedDate( categoryManager.getCreatedDate() );
+        categoryManagerDto.setStatus( categoryManager.getStatus() );
+        categoryManagerDto.setUpdateDate( categoryManager.getUpdateDate() );
+        categoryManagerDto.setUpdatedBy( categoryManager.getUpdatedBy() );
 
-        return manageCategoryDto;
+        return categoryManagerDto;
     }
 
     @Override
@@ -147,5 +144,180 @@ public class MCMapperImpl implements MCMapper {
         bannerManagerDto.setVerificationStatus( bannerManager.getVerificationStatus() );
 
         return bannerManagerDto;
+    }
+
+    @Override
+    public CompanyManager toCompanyManager(CompanyManagerDto companyManagerDto) {
+        if ( companyManagerDto == null ) {
+            return null;
+        }
+
+        CompanyManager companyManager = new CompanyManager();
+
+        companyManager.setCategoryId( companyManagerDto.getCategoryId() );
+        companyManager.setCity( companyManagerDto.getCity() );
+        companyManager.setCompanyAddress( companyManagerDto.getCompanyAddress() );
+        companyManager.setCompanyId( companyManagerDto.getCompanyId() );
+        companyManager.setCompanyStartDate( companyManagerDto.getCompanyStartDate() );
+        companyManager.setCompanyType( companyManagerDto.getCompanyType() );
+        companyManager.setCountry( companyManagerDto.getCountry() );
+        companyManager.setCreatedBy( companyManagerDto.getCreatedBy() );
+        companyManager.setCreatedDate( companyManagerDto.getCreatedDate() );
+        companyManager.setDescription( companyManagerDto.getDescription() );
+        companyManager.setLatitude( companyManagerDto.getLatitude() );
+        companyManager.setLongtitude( companyManagerDto.getLongtitude() );
+        companyManager.setState( companyManagerDto.getState() );
+        companyManager.setStatus( companyManagerDto.getStatus() );
+        companyManager.setUpdateDate( companyManagerDto.getUpdateDate() );
+        companyManager.setUpdatedBy( companyManagerDto.getUpdatedBy() );
+        companyManager.setUserId( companyManagerDto.getUserId() );
+
+        return companyManager;
+    }
+
+    @Override
+    public CompanyManagerDto toCompanyManagerDto(CompanyManager companyManager) {
+        if ( companyManager == null ) {
+            return null;
+        }
+
+        CompanyManagerDto companyManagerDto = new CompanyManagerDto();
+
+        companyManagerDto.setCategoryId( companyManager.getCategoryId() );
+        companyManagerDto.setCity( companyManager.getCity() );
+        companyManagerDto.setCompanyAddress( companyManager.getCompanyAddress() );
+        companyManagerDto.setCompanyId( companyManager.getCompanyId() );
+        companyManagerDto.setCompanyStartDate( companyManager.getCompanyStartDate() );
+        companyManagerDto.setCompanyType( companyManager.getCompanyType() );
+        companyManagerDto.setCountry( companyManager.getCountry() );
+        companyManagerDto.setCreatedBy( companyManager.getCreatedBy() );
+        companyManagerDto.setCreatedDate( companyManager.getCreatedDate() );
+        companyManagerDto.setDescription( companyManager.getDescription() );
+        companyManagerDto.setLatitude( companyManager.getLatitude() );
+        companyManagerDto.setLongtitude( companyManager.getLongtitude() );
+        companyManagerDto.setState( companyManager.getState() );
+        companyManagerDto.setStatus( companyManager.getStatus() );
+        companyManagerDto.setUpdateDate( companyManager.getUpdateDate() );
+        companyManagerDto.setUpdatedBy( companyManager.getUpdatedBy() );
+        companyManagerDto.setUserId( companyManager.getUserId() );
+
+        return companyManagerDto;
+    }
+
+    @Override
+    public RatingManager toRatingManager(RatingManagerDto ratingManagerDto) {
+        if ( ratingManagerDto == null ) {
+            return null;
+        }
+
+        RatingManager ratingManager = new RatingManager();
+
+        ratingManager.setCompanyId( ratingManagerDto.getCompanyId() );
+        ratingManager.setRatedValue( ratingManagerDto.getRatedValue() );
+        ratingManager.setRatingComment( ratingManagerDto.getRatingComment() );
+        ratingManager.setRatingId( ratingManagerDto.getRatingId() );
+        ratingManager.setStatus( ratingManagerDto.getStatus() );
+        ratingManager.setUserId( ratingManagerDto.getUserId() );
+
+        return ratingManager;
+    }
+
+    @Override
+    public RatingManagerDto toRatingManagerDto(RatingManager ratingManager) {
+        if ( ratingManager == null ) {
+            return null;
+        }
+
+        RatingManagerDto ratingManagerDto = new RatingManagerDto();
+
+        ratingManagerDto.setCompanyId( ratingManager.getCompanyId() );
+        ratingManagerDto.setRatedValue( ratingManager.getRatedValue() );
+        ratingManagerDto.setRatingComment( ratingManager.getRatingComment() );
+        ratingManagerDto.setRatingId( ratingManager.getRatingId() );
+        ratingManagerDto.setStatus( ratingManager.getStatus() );
+        ratingManagerDto.setUserId( ratingManager.getUserId() );
+
+        return ratingManagerDto;
+    }
+
+    @Override
+    public Role toRole(RoleDto roleDto) {
+        if ( roleDto == null ) {
+            return null;
+        }
+
+        Role role = new Role();
+
+        role.setCreatedBy( roleDto.getCreatedBy() );
+        role.setCreatedDate( roleDto.getCreatedDate() );
+        role.setRoleId( roleDto.getRoleId() );
+        role.setRoleName( roleDto.getRoleName() );
+        role.setStatus( roleDto.getStatus() );
+        role.setUpdateDate( roleDto.getUpdateDate() );
+        role.setUpdatedBy( roleDto.getUpdatedBy() );
+
+        return role;
+    }
+
+    @Override
+    public RoleDto toRoleDto(Role role) {
+        if ( role == null ) {
+            return null;
+        }
+
+        RoleDto roleDto = new RoleDto();
+
+        roleDto.setCreatedBy( role.getCreatedBy() );
+        roleDto.setCreatedDate( role.getCreatedDate() );
+        roleDto.setRoleId( role.getRoleId() );
+        roleDto.setRoleName( role.getRoleName() );
+        roleDto.setStatus( role.getStatus() );
+        roleDto.setUpdateDate( role.getUpdateDate() );
+        roleDto.setUpdatedBy( role.getUpdatedBy() );
+
+        return roleDto;
+    }
+
+    @Override
+    public User toUser(UserDto userDto) {
+        if ( userDto == null ) {
+            return null;
+        }
+
+        User user = new User();
+
+        user.setAddress( userDto.getAddress() );
+        user.setAge( userDto.getAge() );
+        if ( userDto.getCategoryId() != null ) {
+            user.setCategoryId( Long.parseLong( userDto.getCategoryId() ) );
+        }
+        user.setCity( userDto.getCity() );
+        if ( userDto.getCompanyId() != null ) {
+            user.setCompanyId( Long.parseLong( userDto.getCompanyId() ) );
+        }
+        user.setCompanyName( userDto.getCompanyName() );
+        user.setCountry( userDto.getCountry() );
+        user.setCreatedBy( userDto.getCreatedBy() );
+        user.setCreatedDate( userDto.getCreatedDate() );
+        user.setEmailAddress( userDto.getEmailAddress() );
+        user.setFirstName( userDto.getFirstName() );
+        user.setImageUrl( userDto.getImageUrl() );
+        user.setLastName( userDto.getLastName() );
+        user.setMiddleName( userDto.getMiddleName() );
+        user.setPassword( userDto.getPassword() );
+        user.setPhoneNumber( userDto.getPhoneNumber() );
+        user.setPincode( userDto.getPincode() );
+        if ( userDto.getRoleId() != null ) {
+            user.setRoleId( Long.parseLong( userDto.getRoleId() ) );
+        }
+        user.setState( userDto.getState() );
+        user.setStatus( userDto.getStatus() );
+        user.setUpdateDate( userDto.getUpdateDate() );
+        user.setUpdatedBy( userDto.getUpdatedBy() );
+        if ( userDto.getUserId() != null ) {
+            user.setUserId( Long.parseLong( userDto.getUserId() ) );
+        }
+
+        return user;
     }
 }

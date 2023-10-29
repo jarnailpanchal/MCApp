@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.market.connect.dto.BannerManagerDto;
-import com.market.connect.dto.ManageCategoryDto;
 import com.market.connect.service.BannerManagerService;
 
 @RestController
@@ -29,9 +28,9 @@ public class BannerManagerController {
 	}
 
 	@GetMapping(path = "/getAll")
-	public Page<ManageCategoryDto> getAllCategory(@RequestParam("page") int page, @RequestParam("size") int size,
+	public Page<BannerManagerDto> getAllCategory(@RequestParam("page") int page, @RequestParam("size") int size,
 			@RequestParam("sort") String sort) {
-		Page<ManageCategoryDto> categories = bannerManagerService.searchCategories(page, size, sort);
+		Page<BannerManagerDto> categories = bannerManagerService.searchBanners(page, size, sort);
 		return categories;
 	}
 

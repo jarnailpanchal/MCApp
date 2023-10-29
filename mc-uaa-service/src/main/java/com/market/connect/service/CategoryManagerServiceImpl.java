@@ -12,7 +12,7 @@ import org.springframework.expression.EvaluationException;
 import org.springframework.stereotype.Service;
 
 import com.market.connect.constant.MarketConnectConstant;
-import com.market.connect.dto.ManageCategoryDto;
+import com.market.connect.dto.CategoryManagerDto;
 import com.market.connect.entity.CategoryManager;
 import com.market.connect.mapper.MCMapper;
 import com.market.connect.repository.ManageCategoryRepository;
@@ -21,13 +21,13 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Service
-public class ManageCategoryServiceImpl implements ManageCategoryService {
+public class CategoryManagerServiceImpl implements CategoryManagerService {
 
 	@Autowired
 	private ManageCategoryRepository manageCategoryRepository;
 
 	@Override
-	public ManageCategoryDto save(ManageCategoryDto manageCategoryDto) {
+	public CategoryManagerDto save(CategoryManagerDto manageCategoryDto) {
 		log.info("save category exectution start here 👽 ");
 		List<CategoryManager> category = manageCategoryRepository.findByCategoryName(manageCategoryDto.getCategoryName());
 		if(category.size() > 0) {
@@ -45,7 +45,7 @@ public class ManageCategoryServiceImpl implements ManageCategoryService {
 	}
 	
 	@Override
-	public Page<ManageCategoryDto> searchCategories(int page, int size, String sort) {
+	public Page<CategoryManagerDto> searchCategories(int page, int size, String sort) {
 		Pageable pageable = null;
 	    if (sort != null) {
 	      // with sorting

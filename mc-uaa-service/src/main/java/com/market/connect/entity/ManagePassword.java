@@ -1,7 +1,6 @@
 package com.market.connect.entity;
 
 import java.time.Instant;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +38,7 @@ public class ManagePassword {
 	@Column(name = "created_by")
 	private String createdBy;
 	@Column(name = "update_date")
-	private Date updatedDate;
+	private Instant updatedDate;
 	@Column(name = "update_by")
 	private String updateBy;
 	@Column(name = "otp_value")

@@ -1,6 +1,6 @@
 package com.market.connect.entity;
 
-import java.util.Date;
+import java.time.Instant;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +23,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "rating_manager")
+@Table(name = "role")
 @Where(clause = "status = 1")
 public class Role {
 
@@ -36,11 +36,11 @@ public class Role {
 	@Column(name = "status")
 	private Short status;
 	@Column(name = "created_date")
-	private Date createdDate;
+	private Instant createdDate;
 	@Column(name = "created_by")
 	private String createdBy;
 	@Column(name = "update_date")
-	private Date updateDate;
+	private Instant updateDate;
 	@Column(name = "updated_by")
 	private String updatedBy;
 	
