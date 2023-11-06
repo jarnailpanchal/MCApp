@@ -2,12 +2,15 @@ package com.market.connect.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.market.connect.constant.MarketConnectConstant;
+import com.market.connect.dto.Response;
 import com.market.connect.service.ManageOTPService;
+import com.market.connect.util.ResponseBuilder;
 
 @RestController
 @RequestMapping(value = "/OTP")
@@ -16,24 +19,42 @@ public class ManageOTPController {
 	@Autowired
 	private ManageOTPService otpService;
 
-	//to generate the security key for otp generation
+	// to generate the security key for otp generation
 	@GetMapping("/generateSecuriyKey")
 	public String generateOtpSecurityKey() {
 		return otpService.generateOtpSecurityKey();
 	}
 
-	//to generate and send the otp with secrete key
-	@PutMapping("/generate/send")
-	public Boolean generateAndSendOtp(@RequestParam("secreteKey") String secreteKey,
-			@RequestParam("mobileNumber") String mobileNumber, @RequestParam("userType") String userType) {
-		return otpService.generateAndSendOtp(secreteKey, mobileNumber, userType);
+	// to generate and send the otp with secrete key
+	@GetMapping("/generate/send/{mobileNumber}/{userType}")
+	public Response<Boolean> generateAndSendOtp(@PathVariable("mobileNumber") String mobileNumber,
+			@PathVariable("userType") String userType) {
+		Response<Boolean> finalResposne = null;
+		try {
+		Boolean response = otpService.generateAndSendOtp(generateOtpSecurityKey(), mobileNumber, userType);
+		finalResposne = ResponseBuilder.createResponse(true, MarketConnectConstant.StatusCode.SUCCESS_CODE,
+				MarketConnectConstant.SUCCESS, response);
+		} catch (Exception e) {
+			finalResposne = ResponseBuilder.createResponse(true, MarketConnectConstant.StatusCode.RESPONSE_FAIL,
+					e.getMessage(), false);
+		}
+		return finalResposne;
 	}
-	
-	//to verify the user
+
+	// to verify the user
 	@GetMapping("/verify")
-	public Boolean verifyOtp(@RequestParam("mobileNumber") String mobileNumber,
+	public Response<Boolean> verifyOtp(@RequestParam("mobileNumber") String mobileNumber,
 			@RequestParam("otp") String otp) {
-		return otpService.verifyOtp(mobileNumber, otp);
+		Response<Boolean> finalResposne = null;
+		try {
+			Boolean response = otpService.verifyOtp(mobileNumber, otp);
+			finalResposne = ResponseBuilder.createResponse(true, MarketConnectConstant.StatusCode.SUCCESS_CODE,
+					MarketConnectConstant.SUCCESS, response);
+			} catch (Exception e) {
+				finalResposne = ResponseBuilder.createResponse(true, MarketConnectConstant.StatusCode.RESPONSE_FAIL,
+						e.getMessage(), false);
+			}
+		return finalResposne;
 	}
 
 }

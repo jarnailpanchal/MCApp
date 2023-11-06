@@ -5,6 +5,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -17,7 +19,6 @@ import com.market.connect.constant.MarketConnectConstant;
 import com.market.connect.entity.ManagePassword;
 import com.market.connect.repository.ManagePasswordRepository;
 
-import ch.qos.logback.core.boolex.EvaluationException;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -46,7 +47,6 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 			log.info("generate and send otp funcation start here 👽 " + mobileNumber);
 			String otp = generateOTP(secreteKey);
 			log.info("generate and send otp funcation start here 👽 with otp :" + otp);
-			isOtpSent = true;
 			ManagePassword managerPasswordEntity = managePasswordRepository.findByMobileNumber(mobileNumber);
 			if (managerPasswordEntity == null) {
 				log.info("generate and send otp funcation when user doesn't exist start here 👽 with params otp :" + otp
@@ -67,20 +67,30 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 				log.info(
 						"generate and send otp funcation when user doesn't exist and saved and sent successfully to the user successfully start here 👽 with params otp :"
 								+ otp + " : mobile number : " + mobileNumber);
+				isOtpSent = true;
 			} else if (managerPasswordEntity != null && userType.equalsIgnoreCase(MarketConnectConstant.USER_STATE_New)
 					&& managerPasswordEntity.getUserId() == null) {
 				managerPasswordEntity.setOtpValue(otp);
 				managePasswordRepository.save(managerPasswordEntity);
 				sendOTP(mobileNumber, otp);
+				isOtpSent = true;
+			} else if (managerPasswordEntity != null && !userType.equalsIgnoreCase(MarketConnectConstant.USER_STATE_New)
+					&& managerPasswordEntity.getUserId() != null) {
+				managerPasswordEntity.setOtpValue(otp);
+				managePasswordRepository.save(managerPasswordEntity);
+				sendOTP(mobileNumber, otp);
 			} else {
-				throw new EvaluationException("user already existing with this mobile number");
+				isOtpSent = false;
+				MarketConnectConstant.StatusCode.RESPONSE_FAIL = MarketConnectConstant.StatusCode.SUCCESS_CODE;
+				throw new RuntimeException("user already exist with this mobile number");
 			}
 
 			log.info("otp generate and validate successfully 👽 " + otp + ": mobile number : " + mobileNumber);
 		} catch (Exception e) {
 			log.error("error while generating/sending otp 👽 ");
 			e.printStackTrace();
-			isOtpSent = false;
+			MarketConnectConstant.StatusCode.RESPONSE_FAIL = "500";
+			throw e;
 		}
 		return isOtpSent;
 	}
@@ -128,9 +138,24 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 
 	@Override
 	public Boolean verifyOtp(String mobileNumber, String otp) {
-		log.info("verifyOtp execution start here with param 👽 : OTP :" + otp + ": mobile number : " + mobileNumber);
-		ManagePassword managerPasswordEntity = managePasswordRepository.findByMobileNumberAndOtpValue(mobileNumber,
-				otp);
-		return managerPasswordEntity == null ? MarketConnectConstant.False : MarketConnectConstant.True;
+		Boolean isOtpVerfied = false;
+		try {
+			log.info(
+					"verifyOtp execution start here with param 👽 : OTP :" + otp + ": mobile number : " + mobileNumber);
+			ManagePassword managerPasswordEntity = managePasswordRepository.findByMobileNumberAndOtpValue(mobileNumber,
+					otp);
+			if (managerPasswordEntity != null) {
+				isOtpVerfied = MarketConnectConstant.True;
+			} else {
+				MarketConnectConstant.StatusCode.RESPONSE_FAIL = MarketConnectConstant.StatusCode.SUCCESS_CODE;
+				throw new RuntimeException("OTP not verified!");
+			}
+		} catch (Exception e) {
+			log.error("error while generating/sending otp 👽 ");
+			e.printStackTrace();
+			MarketConnectConstant.StatusCode.RESPONSE_FAIL = "500";
+			throw e;
+		}
+		return isOtpVerfied;
 	}
 }
