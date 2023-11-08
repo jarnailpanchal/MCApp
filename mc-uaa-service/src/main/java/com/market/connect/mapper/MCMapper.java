@@ -4,10 +4,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import com.market.connect.dto.BannerManagerDto;
+import com.market.connect.dto.CategoryManagerDto;
 import com.market.connect.dto.CompanyManagerDto;
 import com.market.connect.dto.RatingManagerDto;
 import com.market.connect.dto.RoleDto;
-import com.market.connect.dto.CategoryManagerDto;
 import com.market.connect.dto.UserDto;
 import com.market.connect.entity.BannerManager;
 import com.market.connect.entity.CategoryManager;

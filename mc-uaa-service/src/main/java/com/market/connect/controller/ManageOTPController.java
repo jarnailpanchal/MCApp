@@ -3,6 +3,7 @@ package com.market.connect.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,7 @@ public class ManageOTPController {
 	}
 
 	// to generate and send the otp with secrete key
-	@GetMapping("/generate/send/{mobileNumber}/{userType}")
+	@PostMapping("/generate/send/{mobileNumber}/{userType}")
 	public Response<Boolean> generateAndSendOtp(@PathVariable("mobileNumber") String mobileNumber,
 			@PathVariable("userType") String userType) {
 		Response<Boolean> finalResposne = null;
@@ -42,7 +43,7 @@ public class ManageOTPController {
 	}
 
 	// to verify the user
-	@GetMapping("/verify")
+	@PostMapping("/verify")
 	public Response<Boolean> verifyOtp(@RequestParam("mobileNumber") String mobileNumber,
 			@RequestParam("otp") String otp) {
 		Response<Boolean> finalResposne = null;
