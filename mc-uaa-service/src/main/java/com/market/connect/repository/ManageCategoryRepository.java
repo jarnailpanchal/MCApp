@@ -10,6 +10,6 @@ import com.market.connect.entity.CategoryManager;
 @Repository
 public interface ManageCategoryRepository extends JpaRepository<CategoryManager, Long>{
 
-	List<CategoryManager> findByCategoryName(String categoryName);
+	List<CategoryManager> findByCategoryNameIgnoreCase(String categoryName);
 
 }

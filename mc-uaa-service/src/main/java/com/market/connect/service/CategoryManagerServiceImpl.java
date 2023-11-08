@@ -29,7 +29,7 @@ public class CategoryManagerServiceImpl implements CategoryManagerService {
 	@Override
 	public CategoryManagerDto save(CategoryManagerDto manageCategoryDto) {
 		log.info("save category exectution start here 👽 ");
-		List<CategoryManager> category = manageCategoryRepository.findByCategoryName(manageCategoryDto.getCategoryName());
+		List<CategoryManager> category = manageCategoryRepository.findByCategoryNameIgnoreCase(manageCategoryDto.getCategoryName());
 		if(category.size() > 0) {
 			throw new UnsupportedOperationException(
 		            "Category already exists - " + manageCategoryDto.getCategoryName());
