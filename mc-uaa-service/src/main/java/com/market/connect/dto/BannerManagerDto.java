@@ -23,7 +23,7 @@ public class BannerManagerDto {
 	@NotEmpty(message = "banner url can't be blank")
 	@NotNull(message = "banner url can't be null")
 	private String bannerUrl;
-	private String userId;
+	private Long userId;
 	private String companyId;
 	private Short status;
 	
@@ -34,4 +34,5 @@ public class BannerManagerDto {
 	private String createdBy;
 	private Instant updateDate;
 	private String updatedBy;
+	private String type;
 }

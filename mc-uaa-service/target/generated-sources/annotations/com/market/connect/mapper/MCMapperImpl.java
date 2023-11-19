@@ -16,7 +16,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-06T10:54:23+0530",
+    date = "2023-11-19T15:46:58+0530",
     comments = "version: 1.5.3.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230814-2020, environment: Java 17.0.8.1 (Eclipse Adoptium)"
 )
 public class MCMapperImpl implements MCMapper {
@@ -97,6 +97,7 @@ public class MCMapperImpl implements MCMapper {
         bannerManager.setCreatedBy( dto.getCreatedBy() );
         bannerManager.setCreatedDate( dto.getCreatedDate() );
         bannerManager.setStatus( dto.getStatus() );
+        bannerManager.setType( dto.getType() );
         bannerManager.setUpdateDate( dto.getUpdateDate() );
         bannerManager.setUpdatedBy( dto.getUpdatedBy() );
         bannerManager.setUserId( dto.getUserId() );
@@ -138,6 +139,7 @@ public class MCMapperImpl implements MCMapper {
         bannerManagerDto.setCreatedBy( bannerManager.getCreatedBy() );
         bannerManagerDto.setCreatedDate( bannerManager.getCreatedDate() );
         bannerManagerDto.setStatus( bannerManager.getStatus() );
+        bannerManagerDto.setType( bannerManager.getType() );
         bannerManagerDto.setUpdateDate( bannerManager.getUpdateDate() );
         bannerManagerDto.setUpdatedBy( bannerManager.getUpdatedBy() );
         bannerManagerDto.setUserId( bannerManager.getUserId() );
