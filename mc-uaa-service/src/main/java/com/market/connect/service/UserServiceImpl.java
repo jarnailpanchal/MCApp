@@ -8,6 +8,7 @@ import javax.management.AttributeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.market.connect.dto.UserDto;
 import com.market.connect.entity.CategoryManager;
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findAll().stream().map(MCMapper.INSTANCE::userToUserDto).collect(Collectors.toList());
 	}
 
+	@Transactional
 	@Override
 	public List<UserDto> searchUsers(String category) {
 		List<CategoryManager> categories = categoryRepository.findByCategoryNameIgnoreCase(category);
@@ -48,8 +50,10 @@ public class UserServiceImpl implements UserService {
 				.collect(Collectors.toList());
 	}
 
+	@Transactional
 	@Override
 	public UserDto save(UserDto userDto) throws Exception {
+		List<CategoryManager> categories = categoryRepository.findByCategoryNameIgnoreCase(userDto.getCategoryName());
 		List<User> existUser = userRepository.findByPhoneNumber(userDto.getPhoneNumber());
 		if (existUser.size() > 0) {
 			throw new EvaluationException("User alreay exist with this mobile number");
@@ -59,6 +63,7 @@ public class UserServiceImpl implements UserService {
 			if (managerPassword == null) {
 				throw new AttributeNotFoundException(userDto.getPhoneNumber() + " OTP not verified");
 			}
+			user.setCategoryId(categories.size()>0?categories.get(0).getCategoryId():null);
 			User savedUser = userRepository.save(user);
 			managerPassword.setUserId(savedUser.getUserId());
 			managePasswordRepository.save(managerPassword);

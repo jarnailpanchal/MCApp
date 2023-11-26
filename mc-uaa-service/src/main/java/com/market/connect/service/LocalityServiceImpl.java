@@ -62,24 +62,28 @@ public class LocalityServiceImpl implements LocalityService {
 
 	}
 
+	@Transactional
 	@Override
 	public List<String> getState(String country) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public List<String> getDistrict(String country, String state) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public List<String> getCity(String country, String state, String district) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public List<String> findAllCountries() {
 		List<String> countries = countryRepository.findAll().stream().map(Country::getCountryName)
@@ -87,6 +91,7 @@ public class LocalityServiceImpl implements LocalityService {
 		return countries;
 	}
 
+	@Transactional
 	@Override
 	public List<String> findAllStateByCountry(String country) {
 		List<Country> countries = countryRepository.findAllByCountryNameIgnoreCase(country.trim());
@@ -98,6 +103,7 @@ public class LocalityServiceImpl implements LocalityService {
 				.collect(Collectors.toList());
 	}
 
+	@Transactional
 	@Override
 	public List<String> findAllCitiesByState(String state) {
 		List<State> states = stateRepository.findAllByStateNameIgnoreCase(state.trim());

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.expression.EvaluationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.market.connect.constant.MarketConnectConstant;
 import com.market.connect.dto.CategoryManagerDto;
@@ -26,6 +27,7 @@ public class CategoryManagerServiceImpl implements CategoryManagerService {
 	@Autowired
 	private ManageCategoryRepository manageCategoryRepository;
 
+	@Transactional
 	@Override
 	public CategoryManagerDto save(CategoryManagerDto manageCategoryDto) {
 		log.info("save category exectution start here 👽 ");
@@ -44,6 +46,7 @@ public class CategoryManagerServiceImpl implements CategoryManagerService {
 		}
 	}
 	
+	@Transactional
 	@Override
 	public Page<CategoryManagerDto> searchCategories(int page, int size, String sort) {
 		Pageable pageable = null;

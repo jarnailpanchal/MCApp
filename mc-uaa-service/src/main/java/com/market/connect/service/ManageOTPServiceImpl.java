@@ -14,6 +14,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.market.connect.constant.MarketConnectConstant;
 import com.market.connect.entity.ManagePassword;
@@ -28,6 +29,7 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 	@Autowired
 	ManagePasswordRepository managePasswordRepository;
 
+	@Transactional
 	@Override
 	public String generateOtpSecurityKey() {
 		log.info("inside generate otp security key 👽 ");
@@ -40,6 +42,7 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 		return new Base64().encodeToString(buffer);
 	}
 
+	@Transactional
 	@Override
 	public Boolean generateAndSendOtp(String secreteKey, String mobileNumber, String userType) {
 		Boolean isOtpSent = false;
@@ -95,6 +98,7 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 		return isOtpSent;
 	}
 
+	@Transactional
 	@Override
 	public String generateOTP(String secretKey) {
 		try {
@@ -131,11 +135,13 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void sendOTP(String mobileNumber, String otp) {
 		// TODO need to add send OTP functionality
 	}
 
+	@Transactional
 	@Override
 	public Boolean verifyOtp(String mobileNumber, String otp) {
 		Boolean isOtpVerfied = false;

@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.market.connect.dto.RoleDto;
 import com.market.connect.entity.Role;
@@ -24,6 +25,7 @@ public class RoleServiceImpl implements RoleService {
 	@Autowired
 	RoleRepository roleRepository;
 	
+	@Transactional
 	@Override
 	public RoleDto save(RoleDto roleDto) throws EvaluationException {
 		List<Role> existRole = roleRepository.findByRoleName(roleDto.getRoleName());
@@ -35,6 +37,7 @@ public class RoleServiceImpl implements RoleService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public Page<RoleDto> searchRoles(int page, int size, String sort) {
 		Pageable pageable = null;

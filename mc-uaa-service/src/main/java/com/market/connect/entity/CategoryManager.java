@@ -43,5 +43,7 @@ public class CategoryManager {
 	private Instant updateDate; 
 	@Column(name = "updated_by")
 	private String updatedBy;
+	@Column(name = "category_dp_url")
+	private String categoryDpUrl;
 
 }

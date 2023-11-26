@@ -21,32 +21,24 @@ import lombok.ToString;
 @AllArgsConstructor
 @JsonIgnoreProperties
 public class UserDto {
-
 	private String userId;
 	@NotNull(message = "First Name can not be null")
 	@NotBlank(message = "First Name can not be blank")
 	private String firstName;
 	private String middleName;
 	private String lastName;
-	
-	@NotNull(message = "Age can not be null")
-	@NotBlank(message = "Age can not be blank")
 	private Integer age;
 	private String emailAddress;
-
 	@NotNull(message = "Phone number can not be null")
 	@NotBlank(message = "Phone number not be blank")
-	@Pattern(regexp = "^(\\+[0-9]{1,3}[- ]?)?\\(?[0-9]{3}\\)?[- ]?[0-9]{3}[- ]?[0-9]{4}$", message = "Invalid phone number format")
+	@Pattern(regexp = "^(\\+[0-9]{1,3}[- ]?)?\\(?[0-9]{3}\\)?[- ]?[0-9]{3}[- ]?[0-9]{4}$",  message = "Invalid phone number format")
 	private String phoneNumber;
 	private String address;
 	private String city;
 	private String state;
 	private String country;
 	private String pincode;
-	
-	@NotNull(message = "Role Id can not be null")
-	@NotBlank(message = "Role Id not be blank")
-	private String roleId;
+	private Long roleId;
 	private String imageUrl;
 	private String companyName;
 	private String password;
@@ -57,5 +49,5 @@ public class UserDto {
 	private String updatedBy;
 	private String categoryId;
 	private String companyId;
-
+	private String categoryName;
 }

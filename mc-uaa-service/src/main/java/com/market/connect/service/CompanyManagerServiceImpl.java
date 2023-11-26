@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.market.connect.constant.MarketConnectConstant;
 import com.market.connect.dto.CompanyManagerDto;
@@ -24,6 +25,7 @@ public class CompanyManagerServiceImpl implements CompanyManagerService {
 	@Autowired
 	private CompanyManagerRepository companyManagerRepository;	
 	
+	@Transactional
 	@Override
 	public CompanyManagerDto save(CompanyManagerDto companyManagerDto) {
 		
@@ -36,6 +38,7 @@ public class CompanyManagerServiceImpl implements CompanyManagerService {
 		return MCMapper.INSTANCE.toCompanyManagerDto(companyManagerRepository.save(categoryManagerEntity));
 	}
 
+	@Transactional
 	@Override
 	public Page<CompanyManagerDto> searchCompanies(int page, int size, String sort) {
 		Pageable pageable = null;

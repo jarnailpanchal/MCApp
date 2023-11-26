@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.market.connect.dto.RatingManagerDto;
 import com.market.connect.entity.RatingManager;
@@ -22,6 +23,7 @@ public class RatingManagerServiceImpl implements RatingManagerService {
 	@Autowired
 	private RatingManagerRepository ratingManagerRepository;
 	
+	@Transactional
 	@Override
 	public RatingManagerDto save(RatingManagerDto ratingManagerDto) throws EvaluationException {
 		
@@ -32,6 +34,7 @@ public class RatingManagerServiceImpl implements RatingManagerService {
 	return MCMapper.INSTANCE.toRatingManagerDto(ratingManagerRepository.save(ratingManagerEntity));
 	}
 
+	@Transactional
 	@Override
 	public Page<RatingManagerDto> searchRatings(int page, int size, String sort) {
 		Pageable pageable = null;

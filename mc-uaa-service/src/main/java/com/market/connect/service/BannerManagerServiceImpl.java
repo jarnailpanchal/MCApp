@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.market.connect.dto.BannerManagerDto;
@@ -36,6 +37,7 @@ public class BannerManagerServiceImpl implements BannerManagerService {
 	@Autowired
 	private BannerManagerRepository bannerManagerRepository;
 
+	@Transactional
 	@Override
 	public String saveBanner(Long userId,String type, MultipartFile file) {
 		String status = "";
@@ -57,6 +59,7 @@ public class BannerManagerServiceImpl implements BannerManagerService {
 		return status;
 	}
 
+	@Transactional
 	@Override
 	public BannerManagerDto save(BannerManagerDto bannerManagerDto) {
 		BannerManager bannerManager = MCMapper.INSTANCE.toBannerManager(bannerManagerDto);
@@ -67,6 +70,7 @@ public class BannerManagerServiceImpl implements BannerManagerService {
 		return MCMapper.INSTANCE.toBannerManagerDto(bannerManagerRepository.save(bannerManager));
 	}
 
+	@Transactional
 	@Override
 	public Page<BannerManagerDto> searchBanners(int page, int size, String sort) {
 		Pageable pageable = null;
@@ -80,6 +84,7 @@ public class BannerManagerServiceImpl implements BannerManagerService {
 		return bannerManagerRepository.findAll(pageable).map(MCMapper.INSTANCE::toBannerManagerDto);
 	}
 
+	@Transactional
 	@Override
 	public List<String> getTemplatesUrl(Long userId, String type) {
 		List<String> bannersUrl = new ArrayList<>();

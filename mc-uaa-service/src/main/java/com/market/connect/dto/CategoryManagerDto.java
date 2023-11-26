@@ -28,5 +28,6 @@ public class CategoryManagerDto {
 	private String createdBy;
 	private Instant updateDate;
 	private String updatedBy;
+	private String categoryDpUrl;
 	
 }
