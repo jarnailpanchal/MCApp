@@ -1,15 +1,15 @@
 package com.market.connect.service;
 
-import java.util.List;
+import java.time.Instant;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.market.connect.dto.UserDto;
 
 public interface UserService {
 
-	List<UserDto> findAll();
+	UserDto updateUser(Long userId, String firstName, String lastName, Instant birthDate, MultipartFile file);
 
-	UserDto save(UserDto userDto) throws Exception;
-
-	List<UserDto> searchUsers(String category);
+	UserDto getUserById(Long userId);
 
 }

@@ -42,8 +42,6 @@ public class User {
 	private String emailAddress;
 	@Column(name = "phone_number")
 	private String phoneNumber;
-	@Column(name = "address")
-	private String address;
 	@Column(name = "city")
 	private String city;
 	@Column(name = "state")
@@ -56,23 +54,20 @@ public class User {
 	private Long roleId;
 	@Column(name = "image_url")
 	private String imageUrl;
-	@Column(name = "company_name")
-	private String companyName;
 	@Column(name = "password")
 	private String password;
-	@Column(name = "Status")
+	@Column(name = "status")
 	private Short status;
 	@Column(name = "created_date")
 	private Instant createdDate;
+	//2023-10-29T18:30:00Z
+	@Column(name = "birth_date")
+	private Instant birthdDate;
 	@Column(name = "created_by")
 	private String createdBy;
 	@Column(name = "update_date")
 	private Instant updateDate;
 	@Column(name = "updated_by")
 	private String updatedBy;
-	@Column(name = "category_id")
-	private Long categoryId;
-	@Column(name = "company_id")
-	private Long companyId;
 
 }

@@ -30,12 +30,6 @@ public class BannerManagerController {
 	@Autowired
 	private BannerManagerService bannerManagerService;
 
-	// to save the category
-	@PostMapping("/save")
-	public BannerManagerDto saveCategory(@Valid @RequestBody BannerManagerDto bannerManagerDto) {
-		return bannerManagerService.save(bannerManagerDto);
-	}
-
 	@PostMapping(path = "/getAll")
 	public Response<Page<BannerManagerDto>> getAllCategory(@RequestParam("page") int page, @RequestParam("size") int size,
 			@RequestParam("sort") String sort) {
@@ -53,14 +47,14 @@ public class BannerManagerController {
 	}
 	
 	@PostMapping("/file")
-	public Response<Boolean> saveTemplate(@RequestParam("userId") Long userId, @RequestParam("type") String type, @RequestParam("file") MultipartFile file) {
+	public Response<Boolean> saveTemplate(@RequestParam("companyId") Long companyId, @RequestParam("file") MultipartFile file) {
 		Response<Boolean> finalResponse = null;
 		try {
-			bannerManagerService.saveBanner(userId, type, file);
+			bannerManagerService.saveBanner(companyId, file);
 			finalResponse = ResponseBuilder.createResponse(true, MarketConnectConstant.StatusCode.SUCCESS_CODE,
 					MarketConnectConstant.SUCCESS, true);
 		} catch (Exception e) {
-			finalResponse = ResponseBuilder.createResponse(true, MarketConnectConstant.StatusCode.RESPONSE_FAIL,
+			finalResponse = ResponseBuilder.createResponse(false, MarketConnectConstant.StatusCode.RESPONSE_FAIL,
 					e.getMessage(), false);
 		}
 		return finalResponse;

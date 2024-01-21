@@ -1,5 +1,6 @@
 package com.market.connect.dto;
 
+import java.sql.Time;
 import java.time.Instant;
 
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import lombok.ToString;
 public class CompanyManagerDto {
 
 	private Long companyId;
-	private String companyType;
+	private String companyName;
 	private String companyAddress;
 	private String city;
 	private String state;
@@ -32,4 +33,6 @@ public class CompanyManagerDto {
 	private String createdBy;
 	private Instant updateDate;
 	private String updatedBy;
+	private Time openTime;
+	private Time closeTime;
 }

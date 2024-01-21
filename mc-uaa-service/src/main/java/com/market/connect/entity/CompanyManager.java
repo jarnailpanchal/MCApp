@@ -31,8 +31,8 @@ public class CompanyManager {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "company_id")
 	private Long companyId;
-	@Column(name = "company_type")
-	private String companyType;
+	@Column(name = "company_name")
+	private String companyName;
 	@Column(name = "company_address")
 	private String companyAddress;
 	@Column(name = "city")

@@ -32,12 +32,8 @@ public class BannerManager {
 	private Long bannerManagerId;
 	@Column(name = "banner_url")
 	private String bannerUrl;
-	@Column(name = "user_id")
-	private Long userId;
 	@Column(name = "company_id")
-	private String companyId;
-	@Column(name = "type")
-	private String type;
+	private Long companyId;
 	@Column(name = "Status")
 	private Short status;
 	@Column(name = "verification_status")

@@ -5,7 +5,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.crypto.Mac;
@@ -18,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.market.connect.constant.MarketConnectConstant;
 import com.market.connect.entity.ManagePassword;
+import com.market.connect.entity.User;
 import com.market.connect.repository.ManagePasswordRepository;
+import com.market.connect.repository.UserRepository;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -27,7 +28,10 @@ import lombok.extern.log4j.Log4j2;
 public class ManageOTPServiceImpl implements ManageOTPService {
 
 	@Autowired
-	ManagePasswordRepository managePasswordRepository;
+	private ManagePasswordRepository managePasswordRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	@Transactional
 	@Override
@@ -152,6 +156,25 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 					otp);
 			if (managerPasswordEntity != null) {
 				isOtpVerfied = MarketConnectConstant.True;
+				List<User> users = userRepository.findByPhoneNumber(mobileNumber);
+				if(users.size() > 0) {
+					User existUser = users.get(0);
+					existUser.setUpdateDate(Instant.now());
+					existUser.setUpdatedBy(mobileNumber);
+					existUser.setPassword(otp);
+					userRepository.save(existUser);
+				} else {
+					User user = new User();
+					user.setFirstName(mobileNumber+"_USER");
+					user.setRoleId(1l);
+					user.setStatus(Short.valueOf("1"));
+					user.setPhoneNumber(mobileNumber);
+					user.setPassword(otp);
+					user.setCreatedBy(mobileNumber);
+					user.setCreatedDate(Instant.now());
+					userRepository.save(user);
+				}
+				
 			} else {
 				MarketConnectConstant.StatusCode.RESPONSE_FAIL = MarketConnectConstant.StatusCode.SUCCESS_CODE;
 				throw new RuntimeException("OTP not verified!");

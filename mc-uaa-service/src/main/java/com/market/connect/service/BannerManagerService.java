@@ -13,7 +13,7 @@ public interface BannerManagerService {
 
 	Page<BannerManagerDto> searchBanners(int page, int size, String sort);
 
-	String saveBanner(Long userId,String type, MultipartFile file);
+	BannerManagerDto saveBanner(Long companyId,MultipartFile file);
 
 	List<String> getTemplatesUrl(Long userId, String type);
 

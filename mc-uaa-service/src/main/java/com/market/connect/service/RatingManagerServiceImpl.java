@@ -1,5 +1,7 @@
 package com.market.connect.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,29 +24,36 @@ public class RatingManagerServiceImpl implements RatingManagerService {
 
 	@Autowired
 	private RatingManagerRepository ratingManagerRepository;
-	
+
 	@Transactional
 	@Override
 	public RatingManagerDto save(RatingManagerDto ratingManagerDto) throws EvaluationException {
-		
+
 		ratingManagerDto.setStatus(Short.valueOf("1"));
-		RatingManager ratingManagerEntity = MCMapper.INSTANCE
-			.toRatingManager(ratingManagerDto);
-	log.info("save reating exectuted successfully 👽 ");
-	return MCMapper.INSTANCE.toRatingManagerDto(ratingManagerRepository.save(ratingManagerEntity));
+		RatingManager ratingManagerEntity = MCMapper.INSTANCE.toRatingManager(ratingManagerDto);
+		List<RatingManager> ratingManagers = ratingManagerRepository
+				.findByUserIdAndCompanyId(ratingManagerDto.getUserId(), ratingManagerDto.getCompanyId());
+		
+		if(ratingManagers.size() > 0) {
+			List<Long> ids = ratingManagers.stream().map(RatingManager::getRatingId).toList();
+			ratingManagerRepository.deleteAllById(ids);
+		}
+		
+		log.info("save reating exectuted successfully 👽 ");
+		return MCMapper.INSTANCE.toRatingManagerDto(ratingManagerRepository.save(ratingManagerEntity));
 	}
 
 	@Transactional
 	@Override
 	public Page<RatingManagerDto> searchRatings(int page, int size, String sort) {
 		Pageable pageable = null;
-	    if (sort != null) {
-	      // with sorting
-	      pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
-	    } else {
-	      // without sorting
-	      pageable = PageRequest.of(page, size);
-	    }
-	    return ratingManagerRepository.findAll(pageable).map(MCMapper.INSTANCE::toRatingManagerDto);
+		if (sort != null) {
+			// with sorting
+			pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
+		} else {
+			// without sorting
+			pageable = PageRequest.of(page, size);
+		}
+		return ratingManagerRepository.findAll(pageable).map(MCMapper.INSTANCE::toRatingManagerDto);
 	}
 }

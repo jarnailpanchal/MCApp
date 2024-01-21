@@ -39,24 +39,25 @@ public class BannerManagerServiceImpl implements BannerManagerService {
 
 	@Transactional
 	@Override
-	public String saveBanner(Long userId,String type, MultipartFile file) {
+	public BannerManagerDto saveBanner(Long companyId, MultipartFile file) {
 		String status = "";
+		BannerManagerDto savedBanner = new BannerManagerDto();
 		try {
 			InputStream inputStream = file.getInputStream();
-			OutputStream outputStream = new FileOutputStream(uploadPath + userId + "_" + file.getOriginalFilename());
+			OutputStream outputStream = new FileOutputStream(uploadPath + companyId + "_" + file.getOriginalFilename());
 			IOUtils.copy(inputStream, outputStream);
 			BannerManagerDto bannerManagerDto = new BannerManagerDto();
-			bannerManagerDto.setBannerUrl(uploadPath + userId + "_" + file.getOriginalFilename());
-			bannerManagerDto.setUserId(userId);
+			bannerManagerDto.setBannerUrl(uploadPath + companyId + "_" + file.getOriginalFilename());
+			bannerManagerDto.setCompanyId(companyId);
 			bannerManagerDto.setVerificationStatus("Done");
-			bannerManagerDto.setType(type);
-			save(bannerManagerDto);
+			//bannerManagerDto.setType(type);
+			savedBanner = save(bannerManagerDto);
 			status = "Saved";
 		} catch (IOException e) {
 			status = "Not Saved";
 			e.printStackTrace();
 		}
-		return status;
+		return savedBanner;
 	}
 
 	@Transactional
@@ -89,10 +90,10 @@ public class BannerManagerServiceImpl implements BannerManagerService {
 	public List<String> getTemplatesUrl(Long userId, String type) {
 		List<String> bannersUrl = new ArrayList<>();
 		try {
-		bannersUrl = bannerManagerRepository.findByUserIdAndType(userId, type)
-					.stream()
-					.map(BannerManager::getBannerUrl)
-					.collect(Collectors.toList());
+			/*
+			 * bannersUrl = bannerManagerRepository.findByUserIdAndType(userId, type)
+			 * .stream() .map(BannerManager::getBannerUrl) .collect(Collectors.toList());
+			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

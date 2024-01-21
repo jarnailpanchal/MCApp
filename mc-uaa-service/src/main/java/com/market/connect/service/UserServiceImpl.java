@@ -1,74 +1,79 @@
 package com.market.connect.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.time.Instant;
+import java.util.Optional;
 
-import javax.management.AttributeNotFoundException;
-
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.market.connect.dto.UserDto;
-import com.market.connect.entity.CategoryManager;
-import com.market.connect.entity.ManagePassword;
 import com.market.connect.entity.User;
 import com.market.connect.mapper.MCMapper;
-import com.market.connect.repository.ManageCategoryRepository;
-import com.market.connect.repository.ManagePasswordRepository;
 import com.market.connect.repository.UserRepository;
 
-import ch.qos.logback.core.boolex.EvaluationException;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private ManagePasswordRepository managePasswordRepository;
-
-	@Autowired
-	private ManageCategoryRepository categoryRepository;
-
-	@Override
-	public List<UserDto> findAll() {
-		return userRepository.findAll().stream().map(MCMapper.INSTANCE::userToUserDto).collect(Collectors.toList());
-	}
+	@Value("${upload.path}")
+	private String uploadPath;
 
 	@Transactional
 	@Override
-	public List<UserDto> searchUsers(String category) {
-		List<CategoryManager> categories = categoryRepository.findByCategoryNameIgnoreCase(category);
-		Long categoryId = null;
-		if (categories.size() > 0) {
-			categoryId = categories.get(0).getCategoryId();
-		}
-		return userRepository.findAllByCategoryId(categoryId).stream().map(MCMapper.INSTANCE::userToUserDto)
-				.collect(Collectors.toList());
-	}
-
-	@Transactional
-	@Override
-	public UserDto save(UserDto userDto) throws Exception {
-		List<CategoryManager> categories = categoryRepository.findByCategoryNameIgnoreCase(userDto.getCategoryName());
-		List<User> existUser = userRepository.findByPhoneNumber(userDto.getPhoneNumber());
-		if (existUser.size() > 0) {
-			throw new EvaluationException("User alreay exist with this mobile number");
-		} else {
-			User user = MCMapper.INSTANCE.toUser(userDto);
-			ManagePassword managerPassword = managePasswordRepository.findByMobileNumber(userDto.getPhoneNumber());
-			if (managerPassword == null) {
-				throw new AttributeNotFoundException(userDto.getPhoneNumber() + " OTP not verified");
+	public UserDto updateUser(Long userId, String firstName, String lastName, Instant birthDate, MultipartFile file) {
+		User userEntity = new User();
+		try {
+			Optional<User> user = userRepository.findById(userId);
+			String imageUrl = null;
+			if (file != null) {
+				InputStream inputStream = file.getInputStream();
+				OutputStream outputStream = new FileOutputStream(
+						uploadPath + userId + "_" + file.getOriginalFilename());
+				IOUtils.copy(inputStream, outputStream);
+				imageUrl = uploadPath + userId + "_" + file.getOriginalFilename();
 			}
-			user.setCategoryId(categories.size()>0?categories.get(0).getCategoryId():null);
-			User savedUser = userRepository.save(user);
-			managerPassword.setUserId(savedUser.getUserId());
-			managePasswordRepository.save(managerPassword);
+
+			if (!user.isEmpty()) {
+				userEntity = user.get();
+				userEntity.setImageUrl(imageUrl);
+				if (firstName != null && firstName.length() > 0) {
+					userEntity.setFirstName(firstName);
+				}
+				if (birthDate != null) {
+					userEntity.setBirthdDate(birthDate);
+				}
+				if (lastName != null && lastName.length() > 0) {
+					userEntity.setLastName(lastName);
+				}
+				userEntity.setUpdateDate(Instant.now());
+				userEntity.setUpdatedBy(userId.toString());
+				userRepository.save(userEntity);
+			}
+		} catch (Exception e) {
+			log.error("error while updating user details : " + e.getMessage());
 		}
-		return null;
+		return MCMapper.INSTANCE.userToUserDto(userEntity);
 	}
 
+	@Override
+	public UserDto getUserById(Long userId) {
+		Optional<User> user = userRepository.findById(userId);
+		UserDto userDto = new UserDto();
+		if (user.isPresent()) {
+			userDto = MCMapper.INSTANCE.userToUserDto(user.get());
+		}
+		return userDto;
+	}
 }

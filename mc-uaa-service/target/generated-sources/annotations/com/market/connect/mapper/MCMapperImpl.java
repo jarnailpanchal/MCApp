@@ -1,14 +1,22 @@
 package com.market.connect.mapper;
 
+import com.market.connect.dto.AvailabilityManagerDto;
 import com.market.connect.dto.BannerManagerDto;
 import com.market.connect.dto.CategoryManagerDto;
+import com.market.connect.dto.CommentManagerDto;
+import com.market.connect.dto.CompanyCustomDetailDto;
+import com.market.connect.dto.CompanyCustomDetailFinalDto;
 import com.market.connect.dto.CompanyManagerDto;
+import com.market.connect.dto.LikeCommentManagerDto;
 import com.market.connect.dto.RatingManagerDto;
 import com.market.connect.dto.RoleDto;
 import com.market.connect.dto.UserDto;
+import com.market.connect.entity.AvailabilityManager;
 import com.market.connect.entity.BannerManager;
 import com.market.connect.entity.CategoryManager;
+import com.market.connect.entity.CommentManager;
 import com.market.connect.entity.CompanyManager;
+import com.market.connect.entity.LikeCommentManager;
 import com.market.connect.entity.RatingManager;
 import com.market.connect.entity.Role;
 import com.market.connect.entity.User;
@@ -16,7 +24,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-19T15:46:58+0530",
+    date = "2024-01-19T13:22:23+0530",
     comments = "version: 1.5.3.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230814-2020, environment: Java 17.0.8.1 (Eclipse Adoptium)"
 )
 public class MCMapperImpl implements MCMapper {
@@ -29,37 +37,17 @@ public class MCMapperImpl implements MCMapper {
 
         UserDto userDto = new UserDto();
 
-        userDto.setAddress( user.getAddress() );
-        userDto.setAge( user.getAge() );
-        if ( user.getCategoryId() != null ) {
-            userDto.setCategoryId( String.valueOf( user.getCategoryId() ) );
-        }
-        userDto.setCity( user.getCity() );
-        if ( user.getCompanyId() != null ) {
-            userDto.setCompanyId( String.valueOf( user.getCompanyId() ) );
-        }
-        userDto.setCompanyName( user.getCompanyName() );
-        userDto.setCountry( user.getCountry() );
-        userDto.setCreatedBy( user.getCreatedBy() );
+        userDto.setBirthdDate( user.getBirthdDate() );
         userDto.setCreatedDate( user.getCreatedDate() );
-        userDto.setEmailAddress( user.getEmailAddress() );
         userDto.setFirstName( user.getFirstName() );
         userDto.setImageUrl( user.getImageUrl() );
         userDto.setLastName( user.getLastName() );
         userDto.setMiddleName( user.getMiddleName() );
-        userDto.setPassword( user.getPassword() );
         userDto.setPhoneNumber( user.getPhoneNumber() );
-        userDto.setPincode( user.getPincode() );
-        if ( user.getRoleId() != null ) {
-            userDto.setRoleId( String.valueOf( user.getRoleId() ) );
-        }
-        userDto.setState( user.getState() );
         userDto.setStatus( user.getStatus() );
         userDto.setUpdateDate( user.getUpdateDate() );
         userDto.setUpdatedBy( user.getUpdatedBy() );
-        if ( user.getUserId() != null ) {
-            userDto.setUserId( String.valueOf( user.getUserId() ) );
-        }
+        userDto.setUserId( user.getUserId() );
 
         return userDto;
     }
@@ -72,6 +60,7 @@ public class MCMapperImpl implements MCMapper {
 
         CategoryManager categoryManager = new CategoryManager();
 
+        categoryManager.setCategoryDpUrl( dto.getCategoryDpUrl() );
         categoryManager.setCategoryId( dto.getCategoryId() );
         categoryManager.setCategoryName( dto.getCategoryName() );
         categoryManager.setCreatedBy( dto.getCreatedBy() );
@@ -97,10 +86,8 @@ public class MCMapperImpl implements MCMapper {
         bannerManager.setCreatedBy( dto.getCreatedBy() );
         bannerManager.setCreatedDate( dto.getCreatedDate() );
         bannerManager.setStatus( dto.getStatus() );
-        bannerManager.setType( dto.getType() );
         bannerManager.setUpdateDate( dto.getUpdateDate() );
         bannerManager.setUpdatedBy( dto.getUpdatedBy() );
-        bannerManager.setUserId( dto.getUserId() );
         bannerManager.setVerificationStatus( dto.getVerificationStatus() );
 
         return bannerManager;
@@ -114,6 +101,7 @@ public class MCMapperImpl implements MCMapper {
 
         CategoryManagerDto categoryManagerDto = new CategoryManagerDto();
 
+        categoryManagerDto.setCategoryDpUrl( categoryManager.getCategoryDpUrl() );
         categoryManagerDto.setCategoryId( categoryManager.getCategoryId() );
         categoryManagerDto.setCategoryName( categoryManager.getCategoryName() );
         categoryManagerDto.setCreatedBy( categoryManager.getCreatedBy() );
@@ -139,10 +127,8 @@ public class MCMapperImpl implements MCMapper {
         bannerManagerDto.setCreatedBy( bannerManager.getCreatedBy() );
         bannerManagerDto.setCreatedDate( bannerManager.getCreatedDate() );
         bannerManagerDto.setStatus( bannerManager.getStatus() );
-        bannerManagerDto.setType( bannerManager.getType() );
         bannerManagerDto.setUpdateDate( bannerManager.getUpdateDate() );
         bannerManagerDto.setUpdatedBy( bannerManager.getUpdatedBy() );
-        bannerManagerDto.setUserId( bannerManager.getUserId() );
         bannerManagerDto.setVerificationStatus( bannerManager.getVerificationStatus() );
 
         return bannerManagerDto;
@@ -160,8 +146,8 @@ public class MCMapperImpl implements MCMapper {
         companyManager.setCity( companyManagerDto.getCity() );
         companyManager.setCompanyAddress( companyManagerDto.getCompanyAddress() );
         companyManager.setCompanyId( companyManagerDto.getCompanyId() );
+        companyManager.setCompanyName( companyManagerDto.getCompanyName() );
         companyManager.setCompanyStartDate( companyManagerDto.getCompanyStartDate() );
-        companyManager.setCompanyType( companyManagerDto.getCompanyType() );
         companyManager.setCountry( companyManagerDto.getCountry() );
         companyManager.setCreatedBy( companyManagerDto.getCreatedBy() );
         companyManager.setCreatedDate( companyManagerDto.getCreatedDate() );
@@ -189,8 +175,8 @@ public class MCMapperImpl implements MCMapper {
         companyManagerDto.setCity( companyManager.getCity() );
         companyManagerDto.setCompanyAddress( companyManager.getCompanyAddress() );
         companyManagerDto.setCompanyId( companyManager.getCompanyId() );
+        companyManagerDto.setCompanyName( companyManager.getCompanyName() );
         companyManagerDto.setCompanyStartDate( companyManager.getCompanyStartDate() );
-        companyManagerDto.setCompanyType( companyManager.getCompanyType() );
         companyManagerDto.setCountry( companyManager.getCountry() );
         companyManagerDto.setCreatedBy( companyManager.getCreatedBy() );
         companyManagerDto.setCreatedDate( companyManager.getCreatedDate() );
@@ -288,38 +274,135 @@ public class MCMapperImpl implements MCMapper {
 
         User user = new User();
 
-        user.setAddress( userDto.getAddress() );
-        user.setAge( userDto.getAge() );
-        if ( userDto.getCategoryId() != null ) {
-            user.setCategoryId( Long.parseLong( userDto.getCategoryId() ) );
-        }
-        user.setCity( userDto.getCity() );
-        if ( userDto.getCompanyId() != null ) {
-            user.setCompanyId( Long.parseLong( userDto.getCompanyId() ) );
-        }
-        user.setCompanyName( userDto.getCompanyName() );
-        user.setCountry( userDto.getCountry() );
-        user.setCreatedBy( userDto.getCreatedBy() );
+        user.setBirthdDate( userDto.getBirthdDate() );
         user.setCreatedDate( userDto.getCreatedDate() );
-        user.setEmailAddress( userDto.getEmailAddress() );
         user.setFirstName( userDto.getFirstName() );
         user.setImageUrl( userDto.getImageUrl() );
         user.setLastName( userDto.getLastName() );
         user.setMiddleName( userDto.getMiddleName() );
-        user.setPassword( userDto.getPassword() );
         user.setPhoneNumber( userDto.getPhoneNumber() );
-        user.setPincode( userDto.getPincode() );
-        if ( userDto.getRoleId() != null ) {
-            user.setRoleId( Long.parseLong( userDto.getRoleId() ) );
-        }
-        user.setState( userDto.getState() );
         user.setStatus( userDto.getStatus() );
         user.setUpdateDate( userDto.getUpdateDate() );
         user.setUpdatedBy( userDto.getUpdatedBy() );
-        if ( userDto.getUserId() != null ) {
-            user.setUserId( Long.parseLong( userDto.getUserId() ) );
-        }
+        user.setUserId( userDto.getUserId() );
 
         return user;
+    }
+
+    @Override
+    public AvailabilityManager toAvailabilityManager(AvailabilityManagerDto availabilityManagerDto) {
+        if ( availabilityManagerDto == null ) {
+            return null;
+        }
+
+        AvailabilityManager availabilityManager = new AvailabilityManager();
+
+        availabilityManager.setClosingTime( availabilityManagerDto.getClosingTime() );
+        availabilityManager.setCompanyId( availabilityManagerDto.getCompanyId() );
+        availabilityManager.setDayNumber( availabilityManagerDto.getDayNumber() );
+        availabilityManager.setId( availabilityManagerDto.getId() );
+        availabilityManager.setOpenTime( availabilityManagerDto.getOpenTime() );
+
+        return availabilityManager;
+    }
+
+    @Override
+    public AvailabilityManagerDto toAvailabilityManagerDto(AvailabilityManager availabilityManager) {
+        if ( availabilityManager == null ) {
+            return null;
+        }
+
+        AvailabilityManagerDto availabilityManagerDto = new AvailabilityManagerDto();
+
+        availabilityManagerDto.setClosingTime( availabilityManager.getClosingTime() );
+        availabilityManagerDto.setCompanyId( availabilityManager.getCompanyId() );
+        availabilityManagerDto.setDayNumber( availabilityManager.getDayNumber() );
+        availabilityManagerDto.setId( availabilityManager.getId() );
+        availabilityManagerDto.setOpenTime( availabilityManager.getOpenTime() );
+
+        return availabilityManagerDto;
+    }
+
+    @Override
+    public CommentManager toCommentManager(CommentManagerDto commentManagerDto) {
+        if ( commentManagerDto == null ) {
+            return null;
+        }
+
+        CommentManager commentManager = new CommentManager();
+
+        commentManager.setCommentDate( commentManagerDto.getCommentDate() );
+        commentManager.setCommentStatus( commentManagerDto.getCommentStatus() );
+        commentManager.setCommentText( commentManagerDto.getCommentText() );
+        commentManager.setCommenter( commentManagerDto.getCommenter() );
+        commentManager.setCompanyId( commentManagerDto.getCompanyId() );
+        commentManager.setCreatedBy( commentManagerDto.getCreatedBy() );
+        commentManager.setId( commentManagerDto.getId() );
+        commentManager.setReplyingTo( commentManagerDto.getReplyingTo() );
+
+        return commentManager;
+    }
+
+    @Override
+    public CommentManagerDto toCommentManagerDto(CommentManager comment) {
+        if ( comment == null ) {
+            return null;
+        }
+
+        CommentManagerDto commentManagerDto = new CommentManagerDto();
+
+        commentManagerDto.setCommentDate( comment.getCommentDate() );
+        commentManagerDto.setCommentStatus( comment.getCommentStatus() );
+        commentManagerDto.setCommentText( comment.getCommentText() );
+        commentManagerDto.setCommenter( comment.getCommenter() );
+        commentManagerDto.setCompanyId( comment.getCompanyId() );
+        commentManagerDto.setCreatedBy( comment.getCreatedBy() );
+        commentManagerDto.setId( comment.getId() );
+        commentManagerDto.setReplyingTo( comment.getReplyingTo() );
+
+        return commentManagerDto;
+    }
+
+    @Override
+    public LikeCommentManager toLikeCommentManager(LikeCommentManagerDto likeCommentManagerDto) {
+        if ( likeCommentManagerDto == null ) {
+            return null;
+        }
+
+        LikeCommentManager likeCommentManager = new LikeCommentManager();
+
+        likeCommentManager.setCommentId( likeCommentManagerDto.getCommentId() );
+        likeCommentManager.setDisliked( likeCommentManagerDto.isDisliked() );
+        likeCommentManager.setId( likeCommentManagerDto.getId() );
+        likeCommentManager.setLiked( likeCommentManagerDto.isLiked() );
+        likeCommentManager.setUserId( likeCommentManagerDto.getUserId() );
+
+        return likeCommentManager;
+    }
+
+    @Override
+    public CompanyCustomDetailFinalDto toCompanyCustomDetailFinalDto(CompanyCustomDetailDto companyCustomDetailDto) {
+        if ( companyCustomDetailDto == null ) {
+            return null;
+        }
+
+        CompanyCustomDetailFinalDto companyCustomDetailFinalDto = new CompanyCustomDetailFinalDto();
+
+        companyCustomDetailFinalDto.setCategoryId( companyCustomDetailDto.getCategoryId() );
+        companyCustomDetailFinalDto.setClosingTime( companyCustomDetailDto.getClosingTime() );
+        companyCustomDetailFinalDto.setCompanyAddress( companyCustomDetailDto.getCompanyAddress() );
+        companyCustomDetailFinalDto.setCompanyBanners( companyCustomDetailDto.getCompanyBanners() );
+        companyCustomDetailFinalDto.setCompanyId( companyCustomDetailDto.getCompanyId() );
+        companyCustomDetailFinalDto.setCompanyName( companyCustomDetailDto.getCompanyName() );
+        companyCustomDetailFinalDto.setDiscription( companyCustomDetailDto.getDiscription() );
+        companyCustomDetailFinalDto.setImageUrl( companyCustomDetailDto.getImageUrl() );
+        companyCustomDetailFinalDto.setLatitude( companyCustomDetailDto.getLatitude() );
+        companyCustomDetailFinalDto.setLongtitude( companyCustomDetailDto.getLongtitude() );
+        companyCustomDetailFinalDto.setMobileNumber( companyCustomDetailDto.getMobileNumber() );
+        companyCustomDetailFinalDto.setOpenTime( companyCustomDetailDto.getOpenTime() );
+        companyCustomDetailFinalDto.setRatedUserCount( companyCustomDetailDto.getRatedUserCount() );
+        companyCustomDetailFinalDto.setRating( companyCustomDetailDto.getRating() );
+
+        return companyCustomDetailFinalDto;
     }
 }

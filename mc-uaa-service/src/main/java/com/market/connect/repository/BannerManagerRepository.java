@@ -12,6 +12,4 @@ public interface BannerManagerRepository extends JpaRepository<BannerManager, Lo
 
 	List<BannerManager> findByBannerUrlStartingWith(String string);
 
-	List<BannerManager> findByUserIdAndType(Long userId, String type);
-
 }

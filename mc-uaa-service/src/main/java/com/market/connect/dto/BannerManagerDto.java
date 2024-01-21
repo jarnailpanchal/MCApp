@@ -23,8 +23,7 @@ public class BannerManagerDto {
 	@NotEmpty(message = "banner url can't be blank")
 	@NotNull(message = "banner url can't be null")
 	private String bannerUrl;
-	private Long userId;
-	private String companyId;
+	private Long companyId;
 	private Short status;
 	
 	@NotEmpty(message = "varifaction status can't be blank")
