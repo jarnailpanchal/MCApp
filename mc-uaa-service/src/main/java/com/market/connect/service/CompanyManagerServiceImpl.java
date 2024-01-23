@@ -122,8 +122,7 @@ public class CompanyManagerServiceImpl implements CompanyManagerService {
 		List<CompanyCustomDetailDto> companyDetailedList = companyManagerRepository.getCompanyCustomDetail(companyId,
 				String.valueOf(currentDayNumber));
 		log.info("companyDetailedList size in CompanyManagerServiceImpl 👽 : " + companyDetailedList.size());
-		List<String> bannersList = companyDetailedList.stream().map(CompanyCustomDetailDto::getCompanyBanners)
-				.collect(Collectors.toList());
+		List<String> bannersList = companyDetailedList.stream().map(CompanyCustomDetailDto::getCompanyBanners).collect(Collectors.toList());
 		CompanyCustomDetailFinalDto companyCustomDetailDto = MCMapper.INSTANCE
 				.toCompanyCustomDetailFinalDto(companyDetailedList.get(0));
 		companyCustomDetailDto.setBanners(bannersList);

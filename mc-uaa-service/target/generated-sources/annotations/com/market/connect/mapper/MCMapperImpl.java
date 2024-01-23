@@ -24,7 +24,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-19T13:22:23+0530",
+    date = "2024-01-23T21:27:48+0530",
     comments = "version: 1.5.3.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230814-2020, environment: Java 17.0.8.1 (Eclipse Adoptium)"
 )
 public class MCMapperImpl implements MCMapper {
@@ -298,7 +298,9 @@ public class MCMapperImpl implements MCMapper {
         AvailabilityManager availabilityManager = new AvailabilityManager();
 
         availabilityManager.setClosingTime( availabilityManagerDto.getClosingTime() );
-        availabilityManager.setCompanyId( availabilityManagerDto.getCompanyId() );
+        if ( availabilityManagerDto.getCompanyId() != null ) {
+            availabilityManager.setCompanyId( String.valueOf( availabilityManagerDto.getCompanyId() ) );
+        }
         availabilityManager.setDayNumber( availabilityManagerDto.getDayNumber() );
         availabilityManager.setId( availabilityManagerDto.getId() );
         availabilityManager.setOpenTime( availabilityManagerDto.getOpenTime() );
@@ -315,7 +317,9 @@ public class MCMapperImpl implements MCMapper {
         AvailabilityManagerDto availabilityManagerDto = new AvailabilityManagerDto();
 
         availabilityManagerDto.setClosingTime( availabilityManager.getClosingTime() );
-        availabilityManagerDto.setCompanyId( availabilityManager.getCompanyId() );
+        if ( availabilityManager.getCompanyId() != null ) {
+            availabilityManagerDto.setCompanyId( Long.parseLong( availabilityManager.getCompanyId() ) );
+        }
         availabilityManagerDto.setDayNumber( availabilityManager.getDayNumber() );
         availabilityManagerDto.setId( availabilityManager.getId() );
         availabilityManagerDto.setOpenTime( availabilityManager.getOpenTime() );
@@ -337,7 +341,6 @@ public class MCMapperImpl implements MCMapper {
         commentManager.setCommenter( commentManagerDto.getCommenter() );
         commentManager.setCompanyId( commentManagerDto.getCompanyId() );
         commentManager.setCreatedBy( commentManagerDto.getCreatedBy() );
-        commentManager.setId( commentManagerDto.getId() );
         commentManager.setReplyingTo( commentManagerDto.getReplyingTo() );
 
         return commentManager;
@@ -357,7 +360,6 @@ public class MCMapperImpl implements MCMapper {
         commentManagerDto.setCommenter( comment.getCommenter() );
         commentManagerDto.setCompanyId( comment.getCompanyId() );
         commentManagerDto.setCreatedBy( comment.getCreatedBy() );
-        commentManagerDto.setId( comment.getId() );
         commentManagerDto.setReplyingTo( comment.getReplyingTo() );
 
         return commentManagerDto;
@@ -370,12 +372,6 @@ public class MCMapperImpl implements MCMapper {
         }
 
         LikeCommentManager likeCommentManager = new LikeCommentManager();
-
-        likeCommentManager.setCommentId( likeCommentManagerDto.getCommentId() );
-        likeCommentManager.setDisliked( likeCommentManagerDto.isDisliked() );
-        likeCommentManager.setId( likeCommentManagerDto.getId() );
-        likeCommentManager.setLiked( likeCommentManagerDto.isLiked() );
-        likeCommentManager.setUserId( likeCommentManagerDto.getUserId() );
 
         return likeCommentManager;
     }
