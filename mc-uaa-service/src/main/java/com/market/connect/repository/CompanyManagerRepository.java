@@ -48,10 +48,10 @@ public interface CompanyManagerRepository extends JpaRepository<CompanyManager, 
 	  		  + " bm.bannerUrl,"
 	  		  + " count(rm.userId) as ratingCount) "
 			  + " from CompanyManager cm "
-			  + " inner join RatingManager rm on cm.companyId = rm.companyId "
-			  + " inner join User u on (cm.userId=u.userId) "
+			  + " inner join RatingManager rm on cm.companyId = rm.companyId and rm.status = 1 "
+			  + " inner join User u on (cm.userId=u.userId and u.status = 1) "
 			  + " inner join AvailabilityManager av on (cm.companyId=av.companyId) "
-			  + " left outer join BannerManager bm on (cm.companyId=bm.companyId)"
+			  + " left outer join BannerManager bm on (cm.companyId=bm.companyId and bm.status = 1)"
 			  + " where ( cm.status = 1) and cm.companyId =:companyId and av.dayNumber=:dayNumber group by bm.bannerUrl")
 			  List<CompanyCustomDetailDto> getCompanyCustomDetail(@Param("companyId") Long
 					  companyId, @Param("dayNumber") String dayNumber);

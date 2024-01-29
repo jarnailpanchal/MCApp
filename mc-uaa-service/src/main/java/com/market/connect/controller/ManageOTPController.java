@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.market.connect.constant.MarketConnectConstant;
 import com.market.connect.dto.Response;
+import com.market.connect.dto.UserDto;
 import com.market.connect.service.ManageOTPService;
 import com.market.connect.util.ResponseBuilder;
 
@@ -44,18 +45,19 @@ public class ManageOTPController {
 
 	// to verify the user
 	@PostMapping("/verify")
-	public Response<Boolean> verifyOtp(@RequestParam("mobileNumber") String mobileNumber,
+	public Response<UserDto> verifyOtp(@RequestParam("mobileNumber") String mobileNumber,
 			@RequestParam("otp") String otp) {
-		Response<Boolean> finalResposne = null;
+		Response<UserDto> finalResponse = null;
+		UserDto response = new UserDto();
 		try {
-			Boolean response = otpService.verifyOtp(mobileNumber, otp);
-			finalResposne = ResponseBuilder.createResponse(true, MarketConnectConstant.StatusCode.SUCCESS_CODE,
+			response = otpService.verifyOtp(mobileNumber, otp);
+			finalResponse = ResponseBuilder.createResponse(true, MarketConnectConstant.StatusCode.SUCCESS_CODE,
 					MarketConnectConstant.SUCCESS, response);
 			} catch (Exception e) {
-				finalResposne = ResponseBuilder.createResponse(true, MarketConnectConstant.StatusCode.RESPONSE_FAIL,
-						e.getMessage(), false);
+				finalResponse = ResponseBuilder.createResponse(false, MarketConnectConstant.StatusCode.RESPONSE_FAIL,
+						e.getMessage(), response);
 			}
-		return finalResposne;
+		return finalResponse;
 	}
 
 }

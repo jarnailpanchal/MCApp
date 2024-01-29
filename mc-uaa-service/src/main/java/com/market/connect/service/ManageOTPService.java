@@ -1,5 +1,7 @@
 package com.market.connect.service;
 
+import com.market.connect.dto.UserDto;
+
 public interface ManageOTPService {
 
 	/**
@@ -37,5 +39,5 @@ public interface ManageOTPService {
 	 * @param otp
 	 * @return
 	 */
-	Boolean verifyOtp(String mobileNumber, String otp);
+	UserDto verifyOtp(String mobileNumber, String otp);
 }

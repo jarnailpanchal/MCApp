@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.market.connect.constant.MarketConnectConstant;
+import com.market.connect.dto.UserDto;
 import com.market.connect.entity.ManagePassword;
 import com.market.connect.entity.User;
+import com.market.connect.mapper.MCMapper;
 import com.market.connect.repository.ManagePasswordRepository;
 import com.market.connect.repository.UserRepository;
 
@@ -147,8 +149,9 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 
 	@Transactional
 	@Override
-	public Boolean verifyOtp(String mobileNumber, String otp) {
+	public UserDto verifyOtp(String mobileNumber, String otp) {
 		Boolean isOtpVerfied = false;
+		UserDto userDto = new UserDto();
 		try {
 			log.info(
 					"verifyOtp execution start here with param 👽 : OTP :" + otp + ": mobile number : " + mobileNumber);
@@ -157,12 +160,13 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 			if (managerPasswordEntity != null) {
 				isOtpVerfied = MarketConnectConstant.True;
 				List<User> users = userRepository.findByPhoneNumber(mobileNumber);
+				
 				if(users.size() > 0) {
 					User existUser = users.get(0);
 					existUser.setUpdateDate(Instant.now());
 					existUser.setUpdatedBy(mobileNumber);
 					existUser.setPassword(otp);
-					userRepository.save(existUser);
+					userDto = MCMapper.INSTANCE.userToUserDto(userRepository.save(existUser));
 				} else {
 					User user = new User();
 					user.setFirstName(mobileNumber+"_USER");
@@ -172,7 +176,8 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 					user.setPassword(otp);
 					user.setCreatedBy(mobileNumber);
 					user.setCreatedDate(Instant.now());
-					userRepository.save(user);
+					
+					userDto = MCMapper.INSTANCE.userToUserDto(userRepository.save(user));
 				}
 				
 			} else {
@@ -185,6 +190,6 @@ public class ManageOTPServiceImpl implements ManageOTPService {
 			MarketConnectConstant.StatusCode.RESPONSE_FAIL = "500";
 			throw e;
 		}
-		return isOtpVerfied;
+		return userDto;
 	}
 }
