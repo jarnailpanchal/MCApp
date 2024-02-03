@@ -1,14 +1,20 @@
 package com.market.connect.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +35,9 @@ public class BannerManagerController {
 
 	@Autowired
 	private BannerManagerService bannerManagerService;
+	
+	@Value("${upload.path}")
+	private String uploadPath;
 
 	@PostMapping(path = "/getAll")
 	public Response<Page<BannerManagerDto>> getAllCategory(@RequestParam("page") int page, @RequestParam("size") int size,
@@ -76,4 +85,19 @@ public class BannerManagerController {
 		}
 		return finalResponse;
 	}
+	
+	@PostMapping(value = "/photo", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getPhotoByUrl(@RequestParam("photoName") String photoPath) {
+    	try {
+            File file = new File(uploadPath + photoPath);
+            if (!file.exists()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            Resource resource = new FileSystemResource(file);
+            byte[] photoBytes = Files.readAllBytes(resource.getFile().toPath());
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(photoBytes);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
