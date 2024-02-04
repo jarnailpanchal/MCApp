@@ -47,7 +47,7 @@ public class BannerManagerServiceImpl implements BannerManagerService {
 			OutputStream outputStream = new FileOutputStream(uploadPath + companyId + "_" + file.getOriginalFilename());
 			IOUtils.copy(inputStream, outputStream);
 			BannerManagerDto bannerManagerDto = new BannerManagerDto();
-			bannerManagerDto.setBannerUrl(uploadPath + companyId + "_" + file.getOriginalFilename());
+			bannerManagerDto.setBannerUrl(companyId + "_" + file.getOriginalFilename());
 			bannerManagerDto.setCompanyId(companyId);
 			bannerManagerDto.setVerificationStatus("Done");
 			//bannerManagerDto.setType(type);

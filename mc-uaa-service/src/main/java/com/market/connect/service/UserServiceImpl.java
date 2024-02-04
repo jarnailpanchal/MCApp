@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 				OutputStream outputStream = new FileOutputStream(
 						uploadPath + userId + "_" + file.getOriginalFilename());
 				IOUtils.copy(inputStream, outputStream);
-				imageUrl = uploadPath + userId + "_" + file.getOriginalFilename();
+				imageUrl = userId + "_" + file.getOriginalFilename();
 			}
 
 			if (!user.isEmpty()) {
